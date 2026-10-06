@@ -153,10 +153,19 @@ problems. It stays on your machine.
 ## Linux
 
 MaoMao for Linux is shipped as an AppImage, a Debian package and an RPM. The
-latest files, once the Linux release is published, are listed on the
-[GitHub releases page](https://github.com/thekiller-dev/MaoMao/releases). For
-now, the exact same packages can be produced from this checkout with the build
-commands below.
+verified `0.1.3` release is available on the
+[GitHub release page](https://github.com/thekiller-dev/MaoMao/releases/tag/linux-v0.1.3)
+(and the rolling [Linux latest page](https://github.com/thekiller-dev/MaoMao/releases/tag/linux-latest)).
+The exact downloads are:
+
+- [AppImage](https://github.com/thekiller-dev/MaoMao/releases/download/linux-v0.1.3/MaoMao-Linux-0.1.3-x86_64.AppImage)
+- [Debian / Ubuntu `.deb`](https://github.com/thekiller-dev/MaoMao/releases/download/linux-v0.1.3/MaoMao-Linux-0.1.3-amd64.deb)
+- [Fedora / openSUSE `.rpm`](https://github.com/thekiller-dev/MaoMao/releases/download/linux-v0.1.3/MaoMao-Linux-0.1.3-x86_64.rpm)
+- [SHA256SUMS](https://github.com/thekiller-dev/MaoMao/releases/download/linux-v0.1.3/SHA256SUMS)
+
+The packages were built, tested and packed on Ubuntu 22.04 by the Linux release
+workflow. The same packages can also be produced from this checkout with the
+build commands below.
 
 ### Install a release package
 
