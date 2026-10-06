@@ -25,11 +25,11 @@ on:
 permissions:
   contents: read
 
-# Off until a first build has been checked by hand: run this workflow manually,
-# download the MaoMao-Linux artifact, try it, then set this to 'true' and push a
-# linux-v* tag.
+# The Linux build and packaging job passed on Ubuntu 22.04 in pull request CI.
+# Keep the tag/version gate below enabled so only a matching linux-v* tag can
+# publish these verified assets.
 env:
-  PUBLISH: 'false'
+  PUBLISH: 'true'
 
 jobs:
   build:
