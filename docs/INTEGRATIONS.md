@@ -1,4 +1,4 @@
-# Notch Buddy — intégrations
+# MaoMao — intégrations
 
 Règle d'or : **vérifier la doc officielle au moment d'implémenter**. Les formats ci-dessous sont le plan, pas une garantie. Sources à relire :
 - Hooks Claude Code : https://code.claude.com/docs/en/hooks
@@ -13,7 +13,7 @@ Règle d'or : **vérifier la doc officielle au moment d'implémenter**. Les form
 ```
 claude (terminal, VS Code, app Claude)
   └─ hook "command" ─► nb-hook (petit exécutable Swift, livré avec l'app)
-                         └─ socket Unix ─► Notch Buddy.app
+                         └─ socket Unix ─► MaoMao.app
                          ◄─ décision (pour PermissionRequest)
 ```
 - `nb-hook` (script shell) et `nb-hook.py` (relais Python) : écrits par l'app (`HookServer.swift`). Version GitHub : au lancement, dans `~/Library/Application Support/NotchBuddy/`. Version App Store : à l'installation des hooks, dans `~/.claude/coucou/`. Voir `docs/AGENTS.md` pour les autres agents qui utilisent ces scripts.
@@ -70,9 +70,9 @@ Demande l'autorisation Automatisation la première fois (normal).
 ### Installation des hooks : procédure obligatoire
 1. Lire `~/.claude/settings.json` (le créer s'il n'existe pas).
 2. Copier en `~/.claude/settings.json.bak-AAAAMMJJ-HHMM`.
-3. **Fusionner** : ajouter les hooks Notch Buddy sans toucher aux hooks existants. Chemin de `nb-hook` entre guillemets (il contient un espace).
+3. **Fusionner** : ajouter les hooks MaoMao sans toucher aux hooks existants. Chemin de `nb-hook` entre guillemets (il contient un espace).
 4. Montrer le diff à Louis, attendre son OK, écrire.
-5. Bouton « Désinstaller les hooks » dans les réglages qui retire uniquement les entrées Notch Buddy.
+5. Bouton « Désinstaller les hooks » dans les réglages qui retire uniquement les entrées MaoMao.
 
 ---
 
@@ -106,11 +106,11 @@ nb-hook.py, en mode `--statusline`, lit le JSON de stdin, en extrait `rate_limit
 
 ### Installation et activation
 
-Réglages → Agents → Plan usage → **Install relay**. Coucou montre le diff de `~/.claude/settings.json` avant d'écrire quoi que ce soit. Si une `statusLine` existait, seul le champ `command` est remplacé ; les autres champs (`padding`, `refreshInterval`, etc.) sont conservés. Une fois le relais installé, activer le toggle **Show in the notch** pour faire apparaître le pill dans l'en-tête. Si le toggle est activé avant l'installation du relais, l'installation est lancée automatiquement ; le toggle s'active après confirmation.
+Réglages → Agents → Plan usage → **Install relay**. MaoMao montre le diff de `~/.claude/settings.json` avant d'écrire quoi que ce soit. Si une `statusLine` existait, seul le champ `command` est remplacé ; les autres champs (`padding`, `refreshInterval`, etc.) sont conservés. Une fois le relais installé, activer le toggle **Show in the notch** pour faire apparaître le pill dans l'en-tête. Si le toggle est activé avant l'installation du relais, l'installation est lancée automatiquement ; le toggle s'active après confirmation.
 
 ### Désinstallation
 
-Réglages → Agents → Plan usage → **Uninstall relay**. Remet l'objet `statusLine` d'origine à l'identique, ou retire la clé si elle n'existait pas. Si la `statusLine` actuelle n'est plus celle de Coucou (l'utilisateur l'a changée), elle n'est pas touchée.
+Réglages → Agents → Plan usage → **Uninstall relay**. Remet l'objet `statusLine` d'origine à l'identique, ou retire la clé si elle n'existait pas. Si la `statusLine` actuelle n'est plus celle de MaoMao (l'utilisateur l'a changée), elle n'est pas touchée.
 
 ---
 
@@ -197,7 +197,7 @@ Connexion à un serveur local compatible OpenAI. Aucune clé d'API requise.
 
 ### Connexion
 
-Réglages → Chat → Local models → **Connect**. Coucou envoie une requête `GET /v1/models` au serveur. Si le serveur répond avec des modèles, l'URL est sauvegardée et le fournisseur apparaît dans le sélecteur de modèle. Les modèles d'embedding (`nomic-embed-text`, `bge-*`, etc.) sont filtrés automatiquement.
+Réglages → Chat → Local models → **Connect**. MaoMao envoie une requête `GET /v1/models` au serveur. Si le serveur répond avec des modèles, l'URL est sauvegardée et le fournisseur apparaît dans le sélecteur de modèle. Les modèles d'embedding (`nomic-embed-text`, `bge-*`, etc.) sont filtrés automatiquement.
 
 ### Streaming
 

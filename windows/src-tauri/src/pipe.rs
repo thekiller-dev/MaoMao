@@ -110,7 +110,7 @@ pub fn start(app: AppHandle) {
             return;
         };
         // A socket file left behind by a crash answers nothing and can go. One
-        // that answers belongs to a Coucou that is still running: like
+        // that answers belongs to a MaoMao that is still running: like
         // first_pipe_instance on Windows, we refuse to serve on top of it.
         if path.exists() {
             if std::os::unix::net::UnixStream::connect(&path).is_ok() {
@@ -216,7 +216,7 @@ async fn handle(app: AppHandle, mut pipe: impl Relay) {
     app.state::<Pending>().0.lock().unwrap().remove(&id);
 
     // No decision: say nothing at all. coucou-hook then writes nothing to stdout
-    // and Claude Code asks in the terminal, exactly as if Coucou were closed.
+    // and Claude Code asks in the terminal, exactly as if MaoMao were closed.
     if let Some(d) = decision {
         let _ = pipe.write_all(format!("{d}\n").as_bytes()).await;
         let _ = pipe.flush().await;

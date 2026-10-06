@@ -1,18 +1,18 @@
 //! coucou-hook — the relay Claude Code runs on every hook event.
 //!
 //! Reads the hook JSON on stdin, adds a little terminal context, and hands it to
-//! Coucou over the named pipe `\\.\pipe\coucou-<sid>` (Windows) or the Unix
+//! MaoMao over the named pipe `\\.\pipe\coucou-<sid>` (Windows) or the Unix
 //! socket `$XDG_RUNTIME_DIR/coucou.sock` (Linux).
 //!
 //! Hard rule (docs/CLAUDE.md): **never block Claude Code.**
-//! * If the pipe does not exist — Coucou is closed — we exit 0 immediately with
+//! * If the pipe does not exist — MaoMao is closed — we exit 0 immediately with
 //!   nothing on stdout, and the session carries on untouched.
 //! * Every step runs under a deadline enforced by the main thread, so a pipe that
 //!   accepts the connection and then stops reading cannot wedge the session
 //!   either: we abandon the worker and exit.
 //! * Only `PermissionRequest` waits for an answer, because approving from the
 //!   island is the whole point. No answer means empty stdout, and Claude Code
-//!   asks in the terminal exactly as if Coucou were not installed.
+//!   asks in the terminal exactly as if MaoMao were not installed.
 //!
 //! Usage: `coucou-hook <EventName>` (the name is also read from the JSON).
 
@@ -146,7 +146,7 @@ fn read_event() -> Option<(String, String)> {
         }
     }
 
-    // Which terminal the session runs in. Unlike macOS, Coucou here accepts
+    // Which terminal the session runs in. Unlike macOS, MaoMao here accepts
     // events from every terminal, so this is context only — never a filter.
     for (key, var) in [
         ("term_program", "TERM_PROGRAM"),

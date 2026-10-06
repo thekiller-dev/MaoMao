@@ -25,4 +25,4 @@ Si vous forkez MaoMao pour créer votre propre application, c'est bienvenu sous 
 
 ## Questions ou demandes d'autorisation
 
-Ouvrez une issue sur [GitHub](https://github.com/Dxne-Dev/MaoMao/issues) ou contactez l'équipe via le dépôt.
+Ouvrez une issue sur [GitHub](https://github.com/thekiller-dev/MaoMao/issues) ou contactez l'équipe via le dépôt.

@@ -1030,7 +1030,7 @@ final class HookServer: @unchecked Sendable {
 
     // MARK: - Outdated hook detection
 
-    /// Returns true if settings.json has a Coucou hook that needs updating:
+    /// Returns true if settings.json has a MaoMao hook that needs updating:
     /// either a PermissionRequest hook with timeout < 120s, or the AskUserQuestion
     /// PreToolUse matcher is missing (requires Claude Code 2.1.85+).
     static func hooksNeedUpdate() -> Bool {
@@ -1041,8 +1041,8 @@ final class HookServer: @unchecked Sendable {
               let hooks = settings["hooks"] as? [String: Any] else {
             return false
         }
-        // Track whether any Coucou hook is installed at all
-        var hasCoucouHooks = false
+        // Track whether any MaoMao hook is installed at all
+        var hasMaoMaoHooks = false
 
         if let permReqHooks = hooks["PermissionRequest"] as? [[String: Any]] {
             for matcher in permReqHooks {
@@ -1050,7 +1050,7 @@ final class HookServer: @unchecked Sendable {
                     for hook in hookList {
                         if let cmd = hook["command"] as? String,
                            cmd.contains("NotchBuddy") || cmd.contains("coucou") {
-                            hasCoucouHooks = true
+                            hasMaoMaoHooks = true
                             if let timeout = hook["timeout"] as? Int, timeout < 120 { return true }
                         }
                     }
@@ -1059,7 +1059,7 @@ final class HookServer: @unchecked Sendable {
         }
 
         // Check that the AskUserQuestion PreToolUse entry exists
-        if hasCoucouHooks {
+        if hasMaoMaoHooks {
             let preToolHooks = hooks["PreToolUse"] as? [[String: Any]] ?? []
             let hasAskEntry = preToolHooks.contains { m in
                 (m["matcher"] as? String) == "AskUserQuestion"
@@ -1477,7 +1477,7 @@ final class HookServer: @unchecked Sendable {
                                                      label: "~/.gemini/settings.json")
         if let raw = settings["hooks"], !(raw is [String: Any]) {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\" has an unexpected type — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\" has an unexpected type — MaoMao has not touched it."
             ])
         }
         let base = hookBase()
@@ -1494,7 +1494,7 @@ final class HookServer: @unchecked Sendable {
         for (geminiEvent, normalizedEvent, timeout) in events {
             if let raw = hooks[geminiEvent], !(raw is [[String: Any]]) {
                 throw NSError(domain: "Coucou", code: 2, userInfo: [
-                    NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\"[\"\(geminiEvent)\"] has an unexpected type — Coucou has not touched it."
+                    NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\"[\"\(geminiEvent)\"] has an unexpected type — MaoMao has not touched it."
                 ])
             }
             var groups = hooks[geminiEvent] as? [[String: Any]] ?? []
@@ -1518,7 +1518,7 @@ final class HookServer: @unchecked Sendable {
                                                      label: "~/.gemini/settings.json")
         if let raw = settings["hooks"], !(raw is [String: Any]) {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\" has an unexpected type — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "~/.gemini/settings.json: \"hooks\" has an unexpected type — MaoMao has not touched it."
             ])
         }
         if var hooks = settings["hooks"] as? [String: Any] {
@@ -1616,12 +1616,12 @@ final class HookServer: @unchecked Sendable {
         do { data = try Data(contentsOf: url) }
         catch {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "\(label) cannot be read — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "\(label) cannot be read — MaoMao has not touched it."
             ])
         }
         guard let obj = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "\(label) is not valid JSON — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "\(label) is not valid JSON — MaoMao has not touched it."
             ])
         }
         return obj
@@ -1672,7 +1672,7 @@ final class HookServer: @unchecked Sendable {
         FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".codex/hooks.json")
     }
 
-    /// True when ~/.codex/hooks.json already routes Codex events to Coucou's nb-hook.
+    /// True when ~/.codex/hooks.json already routes Codex events to MaoMao's nb-hook.
     static func codexHooksInstalled() -> Bool {
         guard let data = try? Data(contentsOf: codexHooksURL),
               let root = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
@@ -1727,7 +1727,7 @@ final class HookServer: @unchecked Sendable {
         var root = try Self.strictReadJSONObject(at: Self.codexHooksURL, label: "~/.codex/hooks.json")
         if let raw = root["hooks"], !(raw is [String: Any]) {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\" has an unexpected type — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\" has an unexpected type — MaoMao has not touched it."
             ])
         }
         let base = hookBase()
@@ -1737,7 +1737,7 @@ final class HookServer: @unchecked Sendable {
             ("SessionStart",    10,  nil),
             ("UserPromptSubmit", 10, nil),
             ("PreToolUse",      10,  nil),
-            ("PermissionRequest", 120, "Waiting for your answer in the notch (Coucou)"),
+            ("PermissionRequest", 120, "Waiting for your answer in the notch (MaoMao)"),
             ("PostToolUse",     10,  nil),
             ("Stop",            10,  nil),
             ("SubagentStart",   10,  nil),
@@ -1749,11 +1749,11 @@ final class HookServer: @unchecked Sendable {
         for (event, timeout, statusMsg) in events {
             if let raw = hooks[event], !(raw is [[String: Any]]) {
                 throw NSError(domain: "Coucou", code: 2, userInfo: [
-                    NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\"[\"\(event)\"] has an unexpected type — Coucou has not touched it."
+                    NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\"[\"\(event)\"] has an unexpected type — MaoMao has not touched it."
                 ])
             }
             var groups = hooks[event] as? [[String: Any]] ?? []
-            // Remove existing Coucou entries
+            // Remove existing MaoMao entries
             groups = removeNbHookEntries(from: groups)
             var hookEntry: [String: Any] = [
                 "type": "command",
@@ -1773,7 +1773,7 @@ final class HookServer: @unchecked Sendable {
         var root = try Self.strictReadJSONObject(at: Self.codexHooksURL, label: "~/.codex/hooks.json")
         if let raw = root["hooks"], !(raw is [String: Any]) {
             throw NSError(domain: "Coucou", code: 2, userInfo: [
-                NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\" has an unexpected type — Coucou has not touched it."
+                NSLocalizedDescriptionKey: "~/.codex/hooks.json: \"hooks\" has an unexpected type — MaoMao has not touched it."
             ])
         }
         if var hooks = root["hooks"] as? [String: Any] {
@@ -1811,7 +1811,7 @@ extension Notification.Name {
 
 private let nbHookShellWrapper = """
 #!/bin/sh
-# Coucou hook relay — always exits 0, never blocks Claude Code
+# MaoMao hook relay — always exits 0, never blocks Claude Code
 HOOK_DIR="$(dirname "$0")"
 if xcode-select -p >/dev/null 2>&1; then
     out=$(/usr/bin/python3 "$HOOK_DIR/nb-hook.py" "$@" 2>/dev/null)
@@ -1827,8 +1827,8 @@ exit 0
 
 private let nbHookPythonGitHub = """
 #!/usr/bin/env python3
-# nb-hook.py — Coucou hook relay for Claude Code and third-party agents (GitHub version)
-# Reads JSON from stdin, forwards to Coucou via Unix socket, translates response.
+# nb-hook.py — MaoMao hook relay for Claude Code and third-party agents (GitHub version)
+# Reads JSON from stdin, forwards to MaoMao via Unix socket, translates response.
 import sys, json, os, socket
 
 def normalize_event(name):
@@ -1885,7 +1885,7 @@ def main():
         '~/Library/Application Support/NotchBuddy/nb.sock'
     )
 
-    # --statusline mode: relay rate_limits to Coucou, then delegate to saved previous
+    # --statusline mode: relay rate_limits to MaoMao, then delegate to saved previous
     if '--statusline' in sys.argv[1:]:
         relay = {
             'coucou_kind': 'statusline',
@@ -2011,7 +2011,7 @@ def main():
     # socket_path is already defined above
 
     if event == 'PermissionRequest':
-        # Block and wait for Coucou's decision (Claude Code allows up to 120s)
+        # Block and wait for MaoMao's decision (Claude Code allows up to 120s)
         try:
             s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             s.settimeout(118)
@@ -2052,7 +2052,7 @@ def main():
                     sys.stdout.flush()
                     sys.exit(0)
                 elif decision == 'deny':
-                    out = {'hookSpecificOutput': {'hookEventName': 'PermissionRequest', 'decision': {'behavior': 'deny', 'message': 'Denied from Coucou'}}}
+                    out = {'hookSpecificOutput': {'hookEventName': 'PermissionRequest', 'decision': {'behavior': 'deny', 'message': 'Denied from MaoMao'}}}
                     sys.stdout.write(json.dumps(out) + '\\n')
                     sys.stdout.flush()
                     sys.exit(0)
@@ -2094,7 +2094,7 @@ sys.exit(0)
 
 private let nbHookPythonAppStore = """
 #!/usr/bin/env python3
-# nb-hook.py — Coucou (App Store) hook relay for Claude Code and third-party agents
+# nb-hook.py — MaoMao (App Store) hook relay for Claude Code and third-party agents
 # Socket lives inside the sandboxed container; script runs outside the sandbox.
 import sys, json, os, socket
 
@@ -2152,7 +2152,7 @@ def main():
         '~/Library/Containers/fr.louisraille.Coucou/Data/nb.sock'
     )
 
-    # --statusline mode: relay rate_limits to Coucou, then delegate to saved previous
+    # --statusline mode: relay rate_limits to MaoMao, then delegate to saved previous
     if '--statusline' in sys.argv[1:]:
         relay = {
             'coucou_kind': 'statusline',
@@ -2277,7 +2277,7 @@ def main():
     # socket_path is already defined above
 
     if event == 'PermissionRequest':
-        # Block and wait for Coucou's decision (Claude Code allows up to 120s)
+        # Block and wait for MaoMao's decision (Claude Code allows up to 120s)
         try:
             s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             s.settimeout(118)
@@ -2318,7 +2318,7 @@ def main():
                     sys.stdout.flush()
                     sys.exit(0)
                 elif decision == 'deny':
-                    out = {'hookSpecificOutput': {'hookEventName': 'PermissionRequest', 'decision': {'behavior': 'deny', 'message': 'Denied from Coucou'}}}
+                    out = {'hookSpecificOutput': {'hookEventName': 'PermissionRequest', 'decision': {'behavior': 'deny', 'message': 'Denied from MaoMao'}}}
                     sys.stdout.write(json.dumps(out) + '\\n')
                     sys.stdout.flush()
                     sys.exit(0)

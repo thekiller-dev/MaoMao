@@ -14,7 +14,7 @@ Validez les permissions, observez vos agents travailler, glissez-déposez des fi
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-[🌐 **Site Web (GitHub Pages)**](https://dxne-dev.github.io/MaoMao/) · [📦 **Télécharger la dernière release**](https://github.com/Dxne-Dev/MaoMao/releases/latest)
+[🌐 **Site Web (GitHub Pages)**](https://thekiller-dev.github.io/MaoMao/) · [📦 **Télécharger la dernière release**](https://github.com/thekiller-dev/MaoMao/releases/latest)
 
 </div>
 
@@ -43,7 +43,7 @@ Validez les permissions, observez vos agents travailler, glissez-déposez des fi
 
 ### Chat IA direct & analyse de fichiers
 
-- **Chat Claude intégré :** Accès direct aux modèles Claude 3.7 / 3.5 Sonnet, Opus et Haiku via votre clé API Anthropic officielle.
+- **Chat Claude intégré :** Accès direct aux modèles Claude configurables (Sonnet, Opus et Haiku) via votre clé API Anthropic officielle.
 - **Glisser-Déposer de fichiers :** Déposez n'importe quelle image, PDF, log ou fichier de code sur l'Island pour obtenir instantanément une analyse, un résumé ou une aide au débogage.
 
 ### Mochi : une mascotte vivante et réactive
@@ -69,7 +69,7 @@ Validez les permissions, observez vos agents travailler, glissez-déposez des fi
 ### Lancer en mode développement
 
 ```powershell
-git clone https://github.com/Dxne-Dev/MaoMao.git
+git clone https://github.com/thekiller-dev/MaoMao.git
 cd MaoMao/windows
 npm install
 npm run tauri dev
@@ -80,6 +80,13 @@ npm run tauri dev
 ```powershell
 npm run tauri build
 ```
+
+### Linux
+
+La version Linux fournit une **AppImage**, un paquet **.deb** et un paquet
+**.rpm**, avec support Wayland/layer-shell et fallback GNOME/X11. Les commandes
+d’installation, de compilation et la checklist de test sont dans le
+[guide Linux pour Windows/Linux](windows/README.md#linux).
 
 ---
 

@@ -3,7 +3,7 @@
 // The rule from CLAUDE.md is strict and is followed to the letter:
 // read %USERPROFILE%\.claude\settings.json, take a dated backup, merge without
 // touching anybody else's hooks, show the diff, and write only after an explicit
-// click. Uninstall removes Coucou's entries and nothing else.
+// click. Uninstall removes MaoMao's entries and nothing else.
 //
 // The command is only the quoted exe path in forward slashes plus the event name:
 // on Windows Claude Code runs hook commands through Git Bash, and anything with
@@ -33,7 +33,7 @@ pub const HOOK_EVENTS: &[(&str, u64)] = &[
     ("SubagentStop", 10),
 ];
 
-/// Marker that identifies a Coucou entry inside settings.json.
+/// Marker that identifies a MaoMao entry inside settings.json.
 const MARKER: &str = "coucou-hook";
 
 #[derive(Serialize)]
@@ -139,7 +139,7 @@ fn entry_is_ours(entry: &Value) -> bool {
         .unwrap_or(false)
 }
 
-/// Settings with Coucou's hooks added; everything else is left untouched.
+/// Settings with MaoMao's hooks added; everything else is left untouched.
 fn merged(existing: &Value) -> Value {
     let mut root = existing.as_object().cloned().unwrap_or_default();
     let mut hooks = root
@@ -169,7 +169,7 @@ fn merged(existing: &Value) -> Value {
     Value::Object(root)
 }
 
-/// Settings with every Coucou entry removed, and nothing else changed.
+/// Settings with every MaoMao entry removed, and nothing else changed.
 fn without_ours(existing: &Value) -> Value {
     let mut root = existing.as_object().cloned().unwrap_or_default();
     let Some(hooks) = root.get("hooks").and_then(Value::as_object).cloned() else {
@@ -523,7 +523,7 @@ mod tests {
     #[test]
     fn unreadable_content_is_an_error_never_an_empty_object() {
         // This is the whole bug: returning {} here meant `merged()` produced a
-        // file containing nothing but Coucou's hooks, and the write replaced
+        // file containing nothing but MaoMao's hooks, and the write replaced
         // everything the user had.
         for bad in [&b"{ not json"[..], &b"[1,2,3]"[..], &b"\"a string\""[..]] {
             assert!(
