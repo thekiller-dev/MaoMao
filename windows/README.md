@@ -183,10 +183,17 @@ sudo apt install ./MaoMao-Linux-0.1.3-amd64.deb
 maomao
 ```
 
-**Fedora / openSUSE:**
+**Fedora:**
 
 ```bash
 sudo dnf install ./MaoMao-Linux-0.1.3-x86_64.rpm
+maomao
+```
+
+**openSUSE:**
+
+```bash
+sudo zypper install ./MaoMao-Linux-0.1.3-x86_64.rpm
 maomao
 ```
 
