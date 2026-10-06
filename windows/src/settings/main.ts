@@ -399,6 +399,12 @@ function integrationsSection(present: Record<string, boolean>): HTMLElement {
         style: "padding:4px 8px;font-size:11px",
         text: "Delete",
         onclick: () => {
+          // Remove the matching OS-keystore entry as well. The settings JSON
+          // never contains the token, so deleting only the visible config would
+          // otherwise leave an orphaned secret behind forever.
+          void Bridge.secretClear(`custom-${custom.id}-key`).catch((error) => {
+            console.error("Could not remove custom secret", error);
+          });
           settings.customIntegrations = settings.customIntegrations.filter((c) => c.id !== custom.id);
           settings.activeIntegrations = settings.activeIntegrations.filter((x) => x !== custom.id);
           updateNote();

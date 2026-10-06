@@ -79,6 +79,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit JavaScript dependencies
+        run: npm audit --audit-level=high
+
       # Same check as the Windows workflow: three files carry the version.
       - name: Check the tag and every version agree
         if: startsWith(github.ref, 'refs/tags/linux-v')

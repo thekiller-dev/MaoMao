@@ -18,8 +18,25 @@ pub const KNOWN_KEYS: &[&str] = &[
     "calcom-api-key",
 ];
 
+/// Custom integrations use one key per generated integration ID. Keep the
+/// namespace narrow: the renderer may ask to store a custom secret, but it must
+/// never be able to turn this command into an arbitrary Credential Manager or
+/// Secret Service lookup.
+fn is_allowed_key(key: &str) -> bool {
+    if KNOWN_KEYS.contains(&key) {
+        return true;
+    }
+    let Some(id) = key.strip_prefix("custom-").and_then(|v| v.strip_suffix("-key")) else {
+        return false;
+    };
+    let bytes = id.as_bytes();
+    id.starts_with("custom_")
+        && ("custom_".len()..=128).contains(&id.len())
+        && bytes.iter().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'_' || *b == b'-')
+}
+
 fn entry(key: &str) -> Option<Entry> {
-    if !KNOWN_KEYS.contains(&key) {
+    if !is_allowed_key(key) {
         return None;
     }
     Entry::new(SERVICE, key).ok()
@@ -48,4 +65,25 @@ pub fn clear(key: &str) -> Result<(), String> {
 
 pub fn present(key: &str) -> bool {
     get(key).is_some()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_allowed_key;
+
+    #[test]
+    fn allows_declared_and_generated_custom_keys_only() {
+        assert!(is_allowed_key("anthropic-api-key"));
+        assert!(is_allowed_key("custom-custom_my_api_1234-key"));
+        assert!(!is_allowed_key("custom-my_api-key"));
+        assert!(!is_allowed_key("custom-custom_MyApi-key"));
+        assert!(!is_allowed_key("custom-custom_api-key-extra"));
+        assert!(!is_allowed_key("../../secret"));
+    }
+
+    #[test]
+    fn rejects_an_oversized_custom_key() {
+        let id = format!("custom-{}-key", "custom_".to_owned() + &"a".repeat(122));
+        assert!(!is_allowed_key(&id));
+    }
 }
