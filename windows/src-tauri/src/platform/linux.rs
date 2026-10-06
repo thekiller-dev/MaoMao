@@ -205,17 +205,21 @@ pub fn unblock_webview_drops(_app: &AppHandle) {}
 /// the keyboard. Must run before the window is first shown: a layer surface
 /// cannot be made out of a window the compositor already knows.
 ///
-/// Without layer-shell (GNOME, X11, or COUCOU_LAYER_SHELL=0) the window stays
+/// Without layer-shell (GNOME, X11, or MAOMAO_LAYER_SHELL=0) the window stays
 /// an ordinary always-on-top window that refuses focus; where it lands is then
-/// up to the window manager.
+/// up to the window manager. `COUCOU_LAYER_SHELL` remains accepted as a legacy
+/// alias so existing launchers keep working.
 pub fn make_non_activating(win: &WebviewWindow) {
     let Ok(gw) = win.gtk_window() else { return };
-    // COUCOU_LAYER_SHELL=0 is the way out on a compositor where it misbehaves.
-    let wanted = std::env::var("COUCOU_LAYER_SHELL").map(|v| v != "0").unwrap_or(true);
+    // MaoMao's name is preferred; the old variable is kept for compatibility.
+    let layer_override = std::env::var("MAOMAO_LAYER_SHELL")
+        .or_else(|_| std::env::var("COUCOU_LAYER_SHELL"))
+        .ok();
+    let wanted = layer_override.as_deref().map(|v| v != "0").unwrap_or(true);
     let supported = unsafe { layer::gtk_layer_is_supported() } != 0;
     if !wanted || !supported || gw.is_realized() {
         let why = if !wanted {
-            "COUCOU_LAYER_SHELL=0"
+            "MAOMAO_LAYER_SHELL=0"
         } else if supported {
             "window already shown"
         } else {

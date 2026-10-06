@@ -152,25 +152,85 @@ problems. It stays on your machine.
 
 ## Linux
 
-The same app builds for Linux: everything that differs lives in
-`src-tauri/src/platform/`, and the relay's transport in `hook/src/unix.rs`.
+MaoMao for Linux is shipped as an AppImage, a Debian package and an RPM. The
+latest files, once the Linux release is published, are listed on the
+[GitHub releases page](https://github.com/thekiller-dev/MaoMao/releases). For
+now, the exact same packages can be produced from this checkout with the build
+commands below.
+
+### Install a release package
+
+**AppImage** (no installation required):
+
+```bash
+chmod +x MaoMao-Linux-0.1.3-x86_64.AppImage
+./MaoMao-Linux-0.1.3-x86_64.AppImage
+```
+
+**Debian / Ubuntu:**
+
+```bash
+sudo apt install ./MaoMao-Linux-0.1.3-amd64.deb
+maomao
+```
+
+**Fedora / openSUSE:**
+
+```bash
+sudo dnf install ./MaoMao-Linux-0.1.3-x86_64.rpm
+maomao
+```
+
+If `SHA256SUMS` is distributed alongside the packages, verify the download
+before installing:
+
+```bash
+sha256sum -c SHA256SUMS --ignore-missing
+```
+
+### Build Linux from source
+
+On Debian/Ubuntu, install the native dependencies first:
 
 ```bash
 sudo apt install build-essential pkg-config \
   libwebkit2gtk-4.1-dev libgtk-layer-shell-dev libayatana-appindicator3-dev \
   librsvg2-dev libssl-dev libdbus-1-dev patchelf \
   gstreamer1.0-plugins-base gstreamer1.0-plugins-good
-npm install
-npm run tauri dev      # live-reloading development build
+
+# Rust stable and Node.js 20 or newer are also required.
+cd windows
+npm ci
+npm run check-version
+npm run tauri dev      # development run
 npm run pack           # AppImage, .deb and .rpm in windows/release/
 ```
+
+### Linux test checklist
+
+After launching MaoMao:
+
+1. Open **Settings → Claude Code → Install hooks**, review the diff and confirm.
+2. Start a Claude Code session and check that `SessionStart`, tool calls and
+   `Stop` appear in the island.
+3. Trigger a permission request and test both **Allow** and **Deny**.
+4. Drag a file onto the island and ask Claude to analyse it.
+5. Open Settings, save an API key, restart MaoMao and confirm that the key is
+   still present without appearing in `settings.json`.
+6. Verify the tray menu, pause mode, screen changes and `Esc` to close the island.
+7. Check the log at `~/.local/share/maomao/maomao.log` if something fails.
+
+On Wayland, test the layer-shell path on KDE Plasma, Hyprland, Sway or COSMIC.
+On GNOME or X11, MaoMao falls back to a regular always-on-top window. Set
+`MAOMAO_LAYER_SHELL=0` to force the fallback; the old
+`COUCOU_LAYER_SHELL=0` variable is still accepted.
 
 What changes on Linux:
 
 - **The island** is a gtk-layer-shell overlay anchored to the top edge, over any
   top panel, on compositors that support it: COSMIC, KDE Plasma, Hyprland, Sway
   and other wlroots compositors. GNOME has no layer-shell, so there the island
-  is a regular window. `COUCOU_LAYER_SHELL=0` forces that mode anywhere.
+  is a regular window. `MAOMAO_LAYER_SHELL=0` forces that mode anywhere (`COUCOU_LAYER_SHELL=0` remains accepted for compatibility).
 - **Click-through** is the window's input region, kept equal to the island
   shape, so the compositor sends every other click to what is underneath.
 - **Mochi's eyes** follow the pointer only while it is over the island: Wayland

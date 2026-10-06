@@ -81,6 +81,13 @@ npm run tauri dev
 npm run tauri build
 ```
 
+### Linux
+
+La version Linux fournit une **AppImage**, un paquet **.deb** et un paquet
+**.rpm**, avec support Wayland/layer-shell et fallback GNOME/X11. Les commandes
+d’installation, de compilation et la checklist de test sont dans le
+[guide Linux pour Windows/Linux](windows/README.md#linux).
+
 ---
 
 ## Configuration
