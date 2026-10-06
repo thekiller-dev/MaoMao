@@ -61,7 +61,9 @@ that will be taken, and nothing is written until you click. Your own hooks are
 never touched, and uninstalling removes only MaoMao's entries.
 
 The relay is a tiny executable, `coucou-hook.exe`, copied to
-`%LOCALAPPDATA%\MaoMao\bin\` at launch. It is given 300 ms to reach MaoMao and
+`%LOCALAPPDATA%\MaoMao\bin\` at launch. `coucou-hook` is the stable
+technical name kept for compatibility with existing Claude Code hook
+installations; the application itself is MaoMao. It is given 300 ms to reach MaoMao and
 exits cleanly if the app is closed, slow or crashed — **a Claude Code session is
 never blocked or slowed down by MaoMao.** If nobody answers a permission request
 in time, MaoMao stays quiet and Claude Code asks in the terminal as usual.

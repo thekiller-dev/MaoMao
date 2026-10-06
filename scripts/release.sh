@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Builds, notarizes and publishes Coucou for macOS (GitHub build).
+# Builds, notarizes and publishes MaoMao for macOS (GitHub build).
 #
-#   ./scripts/release.sh 0.1.2            build, sign, notarize, staple, tag, publish
-#   ./scripts/release.sh 0.1.2 --finish   finish after an interrupted notarization wait
+#   ./scripts/release.sh 0.1.3            build, sign, notarize, staple, tag, publish
+#   ./scripts/release.sh 0.1.3 --finish   finish after an interrupted notarization wait
 #
 # Run it from a clean checkout of main. CFBundleShortVersionString in
 # NotchBuddy/project.yml must match the version, and CHANGELOG.md needs a
@@ -12,9 +12,9 @@ set -euo pipefail
 VERSION="${1:?Usage: $0 <version> [--finish]}"
 MODE="${2:-}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-BUILD_DIR="/tmp/coucou-release-$VERSION"
-APP="$BUILD_DIR/Coucou.app"
-ZIP="$BUILD_DIR/Coucou.zip"
+BUILD_DIR="/tmp/maomao-release-$VERSION"
+APP="$BUILD_DIR/MaoMao.app"
+ZIP="$BUILD_DIR/MaoMao.zip"
 COMMIT_FILE="$BUILD_DIR/commit"
 TAG="v$VERSION"
 
@@ -107,7 +107,7 @@ ditto -c -k --keepParent "$APP" "$ZIP"
 echo "Release zip ready: $ZIP"
 
 # ── 6. Tag the built commit + GitHub release ──────────────────────────────────
-NOTES="Coucou $VERSION for macOS 15 or later (Apple silicon and Intel).
+NOTES="MaoMao $VERSION for macOS 15 or later (Apple silicon and Intel).
 
 Signed with a Developer ID and notarized by Apple.
 
@@ -117,11 +117,11 @@ $CHANGES
 
 ## Install
 
-1. Download Coucou.zip below and unzip it.
-2. Move Coucou.app to your Applications folder, replacing the old one if you have it.
+1. Download MaoMao.zip below and unzip it.
+2. Move MaoMao.app to your Applications folder, replacing the old one if you have it.
 3. Launch it, and click Open when macOS asks you to confirm.
 
-Linux and Windows: see the [README](https://github.com/Louis-CFM/coucou#readme)."
+Linux and Windows: see the [README](https://github.com/thekiller-dev/MaoMao#readme)."
 
 echo
 echo "──────── Release notes ────────"
@@ -138,9 +138,9 @@ git tag "$TAG" "$COMMIT"
 git push origin "$TAG"
 
 gh release create "$TAG" "$ZIP" \
-  --repo Louis-CFM/coucou \
-  --title "Coucou $VERSION" \
+  --repo thekiller-dev/MaoMao \
+  --title "MaoMao $VERSION" \
   --latest \
   --notes "$NOTES"
 
-echo "✓ $TAG released: https://github.com/Louis-CFM/coucou/releases/tag/$TAG"
+echo "✓ $TAG released: https://github.com/thekiller-dev/MaoMao/releases/tag/$TAG"

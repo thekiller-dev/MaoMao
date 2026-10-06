@@ -58,7 +58,7 @@ pub fn local_dir() -> PathBuf {
 /// keeps its plugin registry in ~/.cache/gstreamer-1.0 by default — the same
 /// file the system's GStreamer uses. The AppImage is mounted somewhere new on
 /// every launch, so each launch would rewrite the system's registry with
-/// plugin paths that vanish once Coucou quits. Give ours its own file.
+/// plugin paths that vanish once MaoMao quits. Give ours its own file.
 pub fn prepare_environment() {
     if std::env::var_os("APPIMAGE").is_none() || std::env::var_os("GST_REGISTRY").is_some() {
         return;

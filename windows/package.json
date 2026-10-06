@@ -1,7 +1,7 @@
 {
   "name": "maomao-windows",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,10 @@
     "preview": "vite preview",
     "icons": "node scripts/gen-icons.mjs",
     "tauri": "tauri",
-    "predev": "cargo build --release -p coucou-hook",
-    "prebuild": "cargo build --release -p coucou-hook",
-    "pack": "tauri build && node scripts/pack.mjs"
+    "predev": "npm run check-version && cargo build --release -p coucou-hook",
+    "prebuild": "npm run check-version && cargo build --release -p coucou-hook",
+    "pack": "tauri build && node scripts/pack.mjs",
+    "check-version": "node scripts/check-version.mjs"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

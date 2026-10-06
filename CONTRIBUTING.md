@@ -6,7 +6,7 @@ Merci de vouloir aider MaoMao à grandir ! 🫶
 
 ```powershell
 # Cloner le dépôt
-git clone https://github.com/Dxne-Dev/MaoMao.git
+git clone https://github.com/thekiller-dev/MaoMao.git
 cd MaoMao/windows
 
 # Installer les dépendances

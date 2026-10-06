@@ -91,7 +91,7 @@ jobs:
 
       # The unsigned NSIS installer is what Defender false-positives on, so the
       # bare binaries go up as well. hooks.rs already falls back to looking for
-      # coucou-hook.exe next to coucou.exe, which is exactly this layout, so the
+      # coucou-hook.exe next to maomao.exe, which is exactly this layout, so the
       # portable pair runs with working Claude Code hooks and no installer.
       # `maomao.exe` is the app; `coucou-hook.exe` keeps the Claude Code contract.
       - uses: actions/upload-artifact@v4
